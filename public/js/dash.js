@@ -7,7 +7,7 @@ define(function(require, exports, module) {
         this.kickoff_timer = function() {
             var dash = this;
             setTimeout(function() {
-                dash.update.call(dash);
+                dash.refresh.call(dash);
             }, this.reload_interval);
         };
 
@@ -22,7 +22,7 @@ define(function(require, exports, module) {
         this.enable = function() {
             this.disabled = false;
             this.get_element().removeClass("disabled");
-            this.update();
+            this.refresh();
         }
     }
     Dash.prototype.render = function() {
@@ -38,23 +38,32 @@ define(function(require, exports, module) {
             this.disable();
         }
     };
-    Dash.prototype.update = function() {
+    Dash.prototype.refresh = function() {
         var dash = this;
         var element = this.get_element();
         element.addClass('updating');
+        this.update(function(status) {
+            element.removeClass('updating');
+            if (status === 'success' || typeof(status) === 'undefined') {
+                addTemporaryClass(element, 'updated', 500);
+            } else {
+                addTemporaryClass(element, 'error', 500);
+            }
+            dash.kickoff_timer();
+        });
+    };
+    Dash.prototype.update = function(callback) {
+        var dash = this;
 
         $.ajax({
             url: this.datasource,
             dataType: 'json',
             success: function (d) {
                 dash.render(d);
-                element.removeClass('updating');
-                addTemporaryClass(element, 'updated', 500);
-                dash.kickoff_timer();
+                callback();
             },
             error: function() {
-                element.removeClass('updating');
-                addTemporaryClass(element, 'error', 500);
+                callback();
             }
         });
     };
@@ -110,6 +119,10 @@ define(function(require, exports, module) {
         require(['dashes/' + dashType], function(dash) {
             var opts = getDashOptions();
 
+            if (typeof(dash.display) === "undefined") {
+                throw "Cannot display dash. Have you exported it?";
+            }
+            
             dash.display(opts);
         });
     }

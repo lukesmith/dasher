@@ -1,12 +1,17 @@
 require 'sinatra'
 require 'json'
 require 'date'
+require 'haml'
 require "teamcity-rest-client"
 
 set :haml, :format => :html5
 
 get '/' do
   haml :dashboard
+end
+
+get '/proxy' do
+
 end
 
 get '/exceptions' do
