@@ -1,0 +1,38 @@
+body
+{
+    background-color: black;
+    color: white;
+}
+
+.builds
+{
+}
+.builds .failed
+{
+    background-color: red;
+}
+.builds .passed
+{
+    background-color: green;
+}
+
+.dash
+{
+    border: solid 1px white;
+}
+.dash.disabled
+{
+    background-color: blue;
+}
+.dash.updating
+{
+    background-color: fuchsia;
+}
+.dash.updated
+{
+    background-color: #ffd700;
+}
+.dash.error
+{
+    background-color: red;
+}

@@ -11,9 +11,39 @@ define(function(require, exports, module) {
         this.datasource = opts.datasource;
     }
 
-    TeamCityBuilds.prototype.render = function() {
-        this.get_element().text('TeamCity');
+    TeamCityBuilds.prototype.render = function(data) {
+        var projects = buildProjectsList(data);
+
+        this.get_element().empty();
+        projects.appendTo(this.get_element());
     };
+
+    function buildProjectsList(projects) {
+        var list = $("<ul class='builds'></ul>");
+
+        for (var i = 0; i < projects.length; i++) {
+            var project = projects[i];
+            var item = $("<li>" + project.name + "</li>");
+            buildBuildsList(project.builds).appendTo(item);
+            list.append(item);
+        }
+
+        return list;
+    }
+
+    function buildBuildsList(builds) {
+        var list = $("<ul></ul>");
+
+        for (var i = 0; i < builds.length; i++) {
+            var build = builds[i];
+            var item = $("<li>" + build.name + "</li>");
+            item.addClass(build.status);
+            
+            list.append(item);
+        }
+
+        return list;
+    }
 
     return dash.exports(TeamCityBuilds);
 
