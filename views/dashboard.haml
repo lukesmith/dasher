@@ -1,0 +1,14 @@
+%html
+  %head
+    %script{:src => "/js/require.js", :'data-main' => "js/main"}
+  %body
+    %h1 Hello From Haml!
+
+    %div{:id =>"chart_div",
+        :style =>"width:400; height:300",
+        :'data-dash' => 'exceptions',
+        :'data-dash-name' => 'Exceptions',
+        :'data-dash-datasource' => '/exceptions'}
+    %div{:id =>"chart_div2", :style =>"width:400; height:300",
+        :'data-dash'=> 'teamcity_builds',
+        :'data-dash-datasource' => '/teamcity'}
