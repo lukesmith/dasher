@@ -1,0 +1,12 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    haml (3.1.4)
+    teamcity-rest-client (0.3.1)
+
+PLATFORMS
+  x86-mingw32
+
+DEPENDENCIES
+  haml
+  teamcity-rest-client
