@@ -7,14 +7,4 @@ require.config({
     }
 });
 
-define(function(require) {
-    var $ = require('jquery');
-    var dasher = require('dash');
-
-    $(function() {
-
-        dasher.buildDashes();
-
-    });
-});
-
+require(["dasher"]);
