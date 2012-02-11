@@ -13,8 +13,8 @@ define(function(require, exports, module) {
         this.chartOptions = opts.chartOptions;
     };
 
-    exports.build = function(Chart) {
-        Chart.prototype.update = function(success) {
+    exports.build = {
+        update: function(success) {
             var wrapper = new google.visualization.ChartWrapper({
               chartType: this.chartType,
               dataSourceUrl: this.dataSource,
@@ -24,13 +24,10 @@ define(function(require, exports, module) {
             });
 
             success(wrapper);
-        };
-
-        Chart.prototype.render = function(data) {
+        },
+        render: function(data) {
             data.draw();
-        };
-
-        return Chart;
+        }
     };
 
 });

@@ -10,8 +10,8 @@ define(function(require, exports, module) {
     exports.initialize = function() {
     };
 
-    exports.build = function(Exception) {
-        Exception.prototype.render = function(data) {
+    exports.build = {
+        render: function(data) {
             var minNumberOfExceptions = 0;
             var maxNumberOfExceptions = 0;
             var dataTable = new google.visualization.DataTable();
@@ -47,9 +47,7 @@ define(function(require, exports, module) {
 
             var chart = new google.visualization.ColumnChart(this.getElement()[0]);
             chart.draw(dataTable, options);
-        };
-
-        return Exception;
+        }
     };
 
 });

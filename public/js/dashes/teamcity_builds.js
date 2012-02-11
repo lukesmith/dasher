@@ -3,15 +3,13 @@ define(function(require, exports, module) {
     var dash = require('../dash');
     require('jquery.base64.min');
 
-    return function(TeamCityBuilds) {
-        TeamCityBuilds.prototype.render = function(data) {
+    exports.build = {
+        render: function(data) {
             var projects = buildProjectsList(data);
 
             this.getElement().empty();
             projects.appendTo(this.getElement());
-        };
-
-        return TeamCityBuilds;
+        }
     };
 
     function buildProjectsList(projects) {

@@ -145,10 +145,14 @@ define(function(require, exports, module) {
                 }
             }
 
+            var methods = {};
             if (typeof(dash.build) === "undefined") {
-                DashType = dash(DashType);
             } else {
-                DashType = dash.build(DashType);
+                methods = dash.build;
+            }
+
+            for (var m in methods) {
+                DashType.prototype[m] = methods[m];
             }
 
             inst = new DashType(opts);
