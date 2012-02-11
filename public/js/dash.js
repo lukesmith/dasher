@@ -6,7 +6,7 @@ define(function(require, exports, module) {
         var dash = this;
         setTimeout(function() {
             refresh.call(dash);
-        }, this.reload_interval);
+        }, this.reloadInterval);
     }
 
     function refresh() {
@@ -28,15 +28,15 @@ define(function(require, exports, module) {
 
     function Dash(element, opts) {
         var defaults = {
-            reload_interval: 10000
+            reloadInterval: 10000
         };
 
         opts = $.extend(defaults, opts);
 
         this.name = opts.name;
         this.element = element;
-        this.reload_interval = opts.reload_interval;
-        this.datasource = opts.datasource;
+        this.reloadInterval = opts.reloadInterval;
+        this.dataSource = opts.dataSource;
 
         this.disable = function() {
             this.disabled = true;
@@ -50,6 +50,9 @@ define(function(require, exports, module) {
     }
     Dash.prototype.get_element = function() {
         return $('#' + this.element);
+    };
+    Dash.prototype.getElementName = function() {
+        return this.element;
     };
     Dash.prototype.render = function() {
         this.displayError('No renderer defined');
@@ -66,7 +69,7 @@ define(function(require, exports, module) {
     };
     Dash.prototype.update = function(callback, failed) {
         $.ajax({
-            url: this.datasource,
+            url: this.dataSource,
             dataType: 'json',
             success: function (d) {
                 callback(d);
@@ -94,14 +97,28 @@ define(function(require, exports, module) {
             return name.substring(0, 4) === 'dash' && name.length > 4;
         }
 
+        function getOptionName(dataName) {
+            function capitaliseFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            var opt_name = dataName.substring(4, dataName.length);
+            var parts = opt_name.split('_');
+            var name = parts[0].toLowerCase();
+            for (var i=1; i<parts.length; i++) {
+                name += capitaliseFirstLetter(parts[i]);
+            }
+            
+            return name;
+        }
+
         function getDashOptions() {
             var data = element.data();
             var opts = {};
-            opts.element = element.attr('id');
-            for (var data_name in data) {
-                if (isDashOption(data_name)) {
-                    var opt_name = data_name.substring(4, data_name.length).toLowerCase();
-                    opts[opt_name] = data[data_name];
+            for (var dataName in data) {
+                if (isDashOption(dataName)) {
+                    var name = getOptionName(dataName);
+                    opts[name] = data[dataName];
                 }
             }
             return opts;

@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     require("goog!visualization,1,packages:[corechart]");
 
     exports.defaults = {
-        reload_interval: 4000
+        reloadInterval: 4000
     };
 
     exports.initialize = function() {

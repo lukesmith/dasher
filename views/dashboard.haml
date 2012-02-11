@@ -13,10 +13,19 @@
           :'data-dash-disabled' => false,
           :'data-dash' => 'exceptions',
           :'data-dash-name' => 'Exceptions',
-          :'data-dash-datasource' => '/exceptions' }
+          :'data-dash-data_source' => '/exceptions' }
+          
       %div{:id =>"chart_div2", :style =>"width:400; height:300",
           :'data-dash-disabled' => false,
           :'data-dash'=> 'teamcity_builds',
           :'data-dash-name' => 'Build statuses',
-          :'data-dash-datasource' => '/teamcity',
+          :'data-dash-data_source' => '/teamcity',
           :'data-dash-reload_interval' => 6000}
+
+      %div{:id => "vis_div",
+           :style => "width: 600px; height: 400px;",
+           :'data-dash'=> 'google_spreadsheet',
+           :'data-dash-data_source' => 'http://spreadsheets.google.com/tq?key=pCQbetd-CptGXxxQIG7VFIQ&pub=1',
+           :'data-dash-chart_type' => 'LineChart',
+           :'data-dash-query' => 'SELECT A,D WHERE D > 100 ORDER BY D',
+           :'data-dash-chart_options' => '{"title": "Countries"}'}

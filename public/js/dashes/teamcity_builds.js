@@ -41,6 +41,4 @@ define(function(require, exports, module) {
         return list;
     }
 
-    return dash.exports(TeamCityBuilds);
-
 });
