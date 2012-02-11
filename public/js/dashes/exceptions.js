@@ -3,7 +3,11 @@ define(function(require, exports, module) {
     var dash = require('../dash');
     require("goog!visualization,1,packages:[corechart]");
 
-    return function(Exception) {
+    exports.defaults = {
+        reload_interval: 4000
+    };
+
+    exports.build = function(Exception) {
         Exception.prototype.construct = function(opts) {
         };
 

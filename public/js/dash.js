@@ -28,7 +28,7 @@ define(function(require, exports, module) {
 
     function Dash(element, opts) {
         var defaults = {
-            reload_interval: 1000
+            reload_interval: 10000
         };
 
         opts = $.extend(defaults, opts);
@@ -107,8 +107,18 @@ define(function(require, exports, module) {
             return opts;
         }
 
-        require(['dashes/' + dashType], function(dash) {
+        function getOptions(defaults) {
             var opts = getDashOptions();
+
+            if (typeof(defaults) !== "undefined") {
+                opts = $.extend($.extend({}, defaults), opts);
+            }
+
+            return opts;
+        }
+
+        require(['dashes/' + dashType], function(dash) {
+            var opts = getOptions(dash.defaults);
 
             DashType.prototype = new Dash(element.attr("id"), opts);
             DashType.prototype.constructor = dashType;
@@ -118,7 +128,12 @@ define(function(require, exports, module) {
                 }
             }
 
-            DashType = dash(DashType);
+            if (typeof(dash.build) === "undefined") {
+                DashType = dash(DashType);
+            } else {
+                DashType = dash.build(DashType);
+            }
+
             inst = new DashType(opts);
             inst.load();
         });
