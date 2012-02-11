@@ -2,15 +2,18 @@ define(function(require, exports, module) {
 
     var $ = require('jquery');
 
-    function getOptionValue(instance, optionName, defaultValue) {
-        return instance.get_element().data('dash-' + optionName) || defaultValue;
-    }
-
     function Dash(element, opts) {
+        var defaults = {
+            reload_interval: 1000
+        };
+
+        opts = $.extend(defaults, opts);
+
         this.name = opts.name;
         this.element = element;
-        this.reload_interval = getOptionValue(this, 'reload_interval', 5000);
+        this.reload_interval = opts.reload_interval;
         this.datasource = opts.datasource;
+        
         this.kickoff_timer = function() {
             var dash = this;
             setTimeout(function() {
