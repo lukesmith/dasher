@@ -3,6 +3,7 @@ require 'json'
 require 'date'
 require 'haml'
 require "teamcity-rest-client"
+require 'active_support/time'
 
 set :haml, :format => :html5
 
@@ -17,8 +18,8 @@ end
 get '/exceptions' do
   content_type :json
 
-  date = DateTime.new(2001,2,3)
-  [ { :Time => date, :NumberOfExceptions => Random.rand(11)}, { :Time => DateTime.new(2001,2,4), :NumberOfExceptions => Random.rand(11) }].to_json
+  now = Time.now
+  (1..24*12).map { |date| { :Time => (now.to_time - date).to_datetime, :NumberOfExceptions => Random.rand(10) } }.to_json
 end
 
 get '/teamcity' do

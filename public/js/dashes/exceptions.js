@@ -32,8 +32,12 @@ define(function(require, exports, module) {
                 }
             }
 
+            if (maxNumberOfExceptions === minNumberOfExceptions) {
+                maxNumberOfExceptions = maxNumberOfExceptions + 1;
+            }
+
             var options = {
-                width: '100%', height: 200,
+                width: '100%', height: "100%",
                 title: this.name,
                 colors: ['#8064A2'],
                 pointSize: 3,
@@ -47,7 +51,5 @@ define(function(require, exports, module) {
 
         return Exception;
     };
-
-    //return dash.exports(Exception);
 
 });
