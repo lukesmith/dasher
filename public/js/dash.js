@@ -57,16 +57,6 @@ define(function(require, exports, module) {
     Dash.prototype.render = function() {
         this.displayError('No renderer defined');
     };
-    Dash.prototype.load = function() {
-        this.getElement().addClass('dash');
-
-        var disabled = this.getElement().data('dash-disabled');
-        if (typeof(disabled) === 'undefined') {
-            this.enable();
-        } else {
-            this.disable();
-        }
-    };
     Dash.prototype.update = function(callback, failed) {
         $.ajax({
             url: this.dataSource,
@@ -134,9 +124,7 @@ define(function(require, exports, module) {
             return opts;
         }
 
-        require(['dashes/' + dashType], function(dash) {
-            var opts = getOptions(dash.defaults);
-
+        function createType(dash, opts) {
             DashType.prototype = new Dash(element.attr("id"), opts);
             DashType.prototype.constructor = dashType;
             function DashType(opts) {
@@ -150,7 +138,25 @@ define(function(require, exports, module) {
                 DashType.prototype[m] = methods[m];
             }
 
-            (new DashType(opts)).load();
+            return DashType;
+        }
+
+        function load() {
+            this.getElement().addClass('dash');
+
+            var disabled = this.getElement().data('dash-disabled');
+            if (typeof(disabled) === 'undefined') {
+                this.enable();
+            } else {
+                this.disable();
+            }
+        }
+
+        require(['dashes/' + dashType], function(dash) {
+            var opts = getOptions(dash.defaults);
+            var Type = createType(dash, opts);
+
+            load.call(new Type(opts));
         });
     }
 
