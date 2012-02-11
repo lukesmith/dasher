@@ -45,7 +45,7 @@ define(function(require, exports, module) {
                 animation: { duration: 1000, easing: 'out' }
             };
 
-            var chart = new google.visualization.ColumnChart(this.get_element()[0]);
+            var chart = new google.visualization.ColumnChart(this.getElement()[0]);
             chart.draw(dataTable, options);
         };
 

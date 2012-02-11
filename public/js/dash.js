@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 
     var $ = require('jquery');
 
-    function kickoff_timer() {
+    function kickoffTimer() {
         var dash = this;
         setTimeout(function() {
             refresh.call(dash);
@@ -11,18 +11,18 @@ define(function(require, exports, module) {
 
     function refresh() {
         var dash = this;
-        var element = this.get_element();
+        var element = this.getElement();
         element.addClass('updating');
         this.update(function(result) {
             result = result || {};
             dash.render(result);
             element.removeClass('updating');
             addTemporaryClass(element, 'updated', 500);
-            kickoff_timer.call(dash);
+            kickoffTimer.call(dash);
         }, function() {
             element.removeClass('updating');
             addTemporaryClass(element, 'error', 500);
-            kickoff_timer.call(dash);
+            kickoffTimer.call(dash);
         });
     }
 
@@ -34,33 +34,33 @@ define(function(require, exports, module) {
         opts = $.extend(defaults, opts);
 
         this.name = opts.name;
-        this.element = element;
+        this.elementId = element;
         this.reloadInterval = opts.reloadInterval;
         this.dataSource = opts.dataSource;
 
         this.disable = function() {
             this.disabled = true;
-            this.get_element().addClass("disabled");
+            this.getElement().addClass("disabled");
         };
         this.enable = function() {
             this.disabled = false;
-            this.get_element().removeClass("disabled");
+            this.getElement().removeClass("disabled");
             refresh.call(this);
         }
     }
-    Dash.prototype.get_element = function() {
-        return $('#' + this.element);
+    Dash.prototype.getElement = function() {
+        return $('#' + this.elementId);
     };
-    Dash.prototype.getElementName = function() {
-        return this.element;
+    Dash.prototype.getElementId = function() {
+        return this.elementId;
     };
     Dash.prototype.render = function() {
         this.displayError('No renderer defined');
     };
     Dash.prototype.load = function() {
-        this.get_element().addClass('dash');
+        this.getElement().addClass('dash');
 
-        var disabled = this.get_element().data('dash-disabled');
+        var disabled = this.getElement().data('dash-disabled');
         if (typeof(disabled) === 'undefined') {
             this.enable();
         } else {
@@ -80,7 +80,7 @@ define(function(require, exports, module) {
         });
     };
     Dash.prototype.displayError = function(error) {
-        this.get_element().text(error);
+        this.getElement().text(error);
     };
     
     function addTemporaryClass(element, className, duration) {

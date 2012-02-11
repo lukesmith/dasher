@@ -7,8 +7,8 @@ define(function(require, exports, module) {
         TeamCityBuilds.prototype.render = function(data) {
             var projects = buildProjectsList(data);
 
-            this.get_element().empty();
-            projects.appendTo(this.get_element());
+            this.getElement().empty();
+            projects.appendTo(this.getElement());
         };
 
         return TeamCityBuilds;

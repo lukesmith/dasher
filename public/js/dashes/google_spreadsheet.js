@@ -20,7 +20,7 @@ define(function(require, exports, module) {
               dataSourceUrl: this.dataSource,
               query: this.query,
               options: this.chartOptions,
-              containerId: this.getElementName()
+              containerId: this.getElementId()
             });
 
             success(wrapper);
