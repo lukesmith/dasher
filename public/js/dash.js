@@ -2,17 +2,20 @@ define(function(require, exports, module) {
 
     var $ = require('jquery');
 
-    function Dash() {
-        this.reload_interval = 10000;
+    function getOptionValue(instance, optionName, defaultValue) {
+        return instance.get_element().data('dash-' + optionName) || defaultValue;
+    }
+
+    function Dash(element, opts) {
+        this.name = opts.name;
+        this.element = element;
+        this.reload_interval = getOptionValue(this, 'reload_interval', 5000);
+        this.datasource = opts.datasource;
         this.kickoff_timer = function() {
             var dash = this;
             setTimeout(function() {
                 dash.refresh.call(dash);
             }, this.reload_interval);
-        };
-
-        this.get_element = function() {
-            return $('#' + this.element);
         };
 
         this.disable = function() {
@@ -25,6 +28,9 @@ define(function(require, exports, module) {
             this.refresh();
         }
     }
+    Dash.prototype.get_element = function() {
+        return $('#' + this.element);
+    };
     Dash.prototype.render = function() {
         this.displayError('No renderer defined');
     };
@@ -78,24 +84,6 @@ define(function(require, exports, module) {
         }, duration);
     }
 
-    exports.initialize = function(dash) {
-        dash.prototype = new Dash();
-        dash.prototype.constructor = dash;
-    };
-
-    exports.exports = function(dash) {
-        return {
-            create: function(opts) {
-                return new dash(opts);
-            },
-            display: function(opts) {
-                var exception = new dash(opts);
-                exception.load();
-                return exception;
-            }
-        };
-    };
-
     function loadDash(dashType) {
         var element = this;
 
@@ -119,11 +107,17 @@ define(function(require, exports, module) {
         require(['dashes/' + dashType], function(dash) {
             var opts = getDashOptions();
 
-            if (typeof(dash.display) === "undefined") {
-                throw "Cannot display dash. Have you exported it?";
+            DashType.prototype = new Dash(element.attr("id"), opts);
+            DashType.prototype.constructor = dashType;
+            function DashType(opts) {
+                if (typeof(this.construct) !== "undefined") {
+                    this.construct.call(this, opts);
+                }
             }
-            
-            dash.display(opts);
+
+            DashType = dash(DashType);
+            inst = new DashType(opts);
+            inst.load();
         });
     }
 
