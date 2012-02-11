@@ -18,7 +18,7 @@ get '/exceptions' do
   content_type :json
 
   date = DateTime.new(2001,2,3)
-  [ { :Time => date, :NumberOfExceptions => 3}, { :Time => DateTime.new(2001,2,4), :NumberOfExceptions => 1 }].to_json
+  [ { :Time => date, :NumberOfExceptions => Random.rand(11)}, { :Time => DateTime.new(2001,2,4), :NumberOfExceptions => Random.rand(11) }].to_json
 end
 
 get '/teamcity' do

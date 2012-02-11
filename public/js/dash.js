@@ -48,28 +48,27 @@ define(function(require, exports, module) {
         var dash = this;
         var element = this.get_element();
         element.addClass('updating');
-        this.update(function(status) {
+        this.update(function(result) {
+            result = result || {};
+            dash.render(result);
             element.removeClass('updating');
-            if (status === 'success' || typeof(status) === 'undefined') {
-                addTemporaryClass(element, 'updated', 500);
-            } else {
-                addTemporaryClass(element, 'error', 500);
-            }
+            addTemporaryClass(element, 'updated', 500);
+            dash.kickoff_timer();
+        }, function() {
+            element.removeClass('updating');
+            addTemporaryClass(element, 'error', 500);
             dash.kickoff_timer();
         });
     };
-    Dash.prototype.update = function(callback) {
-        var dash = this;
-
+    Dash.prototype.update = function(callback, failed) {
         $.ajax({
             url: this.datasource,
             dataType: 'json',
             success: function (d) {
-                dash.render(d);
-                callback();
+                callback(d);
             },
             error: function() {
-                callback();
+                failed();
             }
         });
     };
