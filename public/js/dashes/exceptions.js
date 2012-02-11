@@ -7,10 +7,10 @@ define(function(require, exports, module) {
         reload_interval: 4000
     };
 
-    exports.build = function(Exception) {
-        Exception.prototype.construct = function(opts) {
-        };
+    exports.initialize = function() {
+    };
 
+    exports.build = function(Exception) {
         Exception.prototype.render = function(data) {
             var minNumberOfExceptions = 0;
             var maxNumberOfExceptions = 0;

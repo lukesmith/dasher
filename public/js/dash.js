@@ -123,8 +123,8 @@ define(function(require, exports, module) {
             DashType.prototype = new Dash(element.attr("id"), opts);
             DashType.prototype.constructor = dashType;
             function DashType(opts) {
-                if (typeof(this.construct) !== "undefined") {
-                    this.construct.call(this, opts);
+                if (typeof(dash.initialize) !== "undefined") {
+                    dash.initialize.call(this, opts);
                 }
             }
 
