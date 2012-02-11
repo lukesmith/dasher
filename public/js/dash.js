@@ -2,6 +2,30 @@ define(function(require, exports, module) {
 
     var $ = require('jquery');
 
+    function kickoff_timer() {
+        var dash = this;
+        setTimeout(function() {
+            refresh.call(dash);
+        }, this.reload_interval);
+    }
+
+    function refresh() {
+        var dash = this;
+        var element = this.get_element();
+        element.addClass('updating');
+        this.update(function(result) {
+            result = result || {};
+            dash.render(result);
+            element.removeClass('updating');
+            addTemporaryClass(element, 'updated', 500);
+            kickoff_timer.call(dash);
+        }, function() {
+            element.removeClass('updating');
+            addTemporaryClass(element, 'error', 500);
+            kickoff_timer.call(dash);
+        });
+    }
+
     function Dash(element, opts) {
         var defaults = {
             reload_interval: 1000
@@ -13,13 +37,6 @@ define(function(require, exports, module) {
         this.element = element;
         this.reload_interval = opts.reload_interval;
         this.datasource = opts.datasource;
-        
-        this.kickoff_timer = function() {
-            var dash = this;
-            setTimeout(function() {
-                dash.refresh.call(dash);
-            }, this.reload_interval);
-        };
 
         this.disable = function() {
             this.disabled = true;
@@ -28,7 +45,7 @@ define(function(require, exports, module) {
         this.enable = function() {
             this.disabled = false;
             this.get_element().removeClass("disabled");
-            this.refresh();
+            refresh.call(this);
         }
     }
     Dash.prototype.get_element = function() {
@@ -46,22 +63,6 @@ define(function(require, exports, module) {
         } else {
             this.disable();
         }
-    };
-    Dash.prototype.refresh = function() {
-        var dash = this;
-        var element = this.get_element();
-        element.addClass('updating');
-        this.update(function(result) {
-            result = result || {};
-            dash.render(result);
-            element.removeClass('updating');
-            addTemporaryClass(element, 'updated', 500);
-            dash.kickoff_timer();
-        }, function() {
-            element.removeClass('updating');
-            addTemporaryClass(element, 'error', 500);
-            dash.kickoff_timer();
-        });
     };
     Dash.prototype.update = function(callback, failed) {
         $.ajax({
