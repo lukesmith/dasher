@@ -3,29 +3,44 @@
     %link{:href => "/css/bootstrap.min.css", :rel => 'stylesheet'}
     %link{:href => "/css/bootstrap-responsive.min.css", :rel => "stylesheet"}
     %link{:href => "/css/styles.css", :rel => 'stylesheet'}
-    %script{:src => "/js/require.js", :'data-main' => "js/main"}
   %body
     %div{:class => 'container-fluid'}
-      %h1 Hello From Haml!
 
-      %div{:id =>"chart_div",
-          :style =>"width:100%; height:300",
-          :'data-dash-disabled' => false,
-          :'data-dash' => 'exceptions',
-          :'data-dash-name' => 'Exceptions',
-          :'data-dash-data_source' => '/exceptions' }
+      %div{:class => 'row-fluid'}
+        %div{:id =>"chart_div",
+            :class => 'span12',
+            :style =>"height:200px",
+            :'data-dash-disabled' => false,
+            :'data-dash' => 'exceptions',
+            :'data-dash-name' => 'Exceptions',
+            :'data-dash-data_source' => '/exceptions'}
 
-      %div{:id =>"chart_div2", :style =>"width:400; height:300",
-          :'data-dash-disabled' => false,
-          :'data-dash'=> 'teamcity_builds',
-          :'data-dash-name' => 'Build statuses',
-          :'data-dash-data_source' => '/teamcity',
-          :'data-dash-reload_interval' => 6000}
+      %div{:class => 'row-fluid'}
+        %div{:id =>"chart_div2",
+            :style =>"height:200px",
+            :class => 'span4',
+            :'data-dash-disabled' => false,
+            :'data-dash'=> 'teamcity_builds',
+            :'data-dash-name' => 'Build statuses',
+            :'data-dash-data_source' => '/teamcity',
+            :'data-dash-reload_interval' => 6000}
 
-      %div{:id => "vis_div",
-           :style => "width: 600px; height: 400px;",
-           :'data-dash'=> 'google_spreadsheet',
-           :'data-dash-data_source' => 'http://spreadsheets.google.com/tq?key=pCQbetd-CptGXxxQIG7VFIQ&pub=1',
-           :'data-dash-chart_type' => 'LineChart',
-           :'data-dash-query' => 'SELECT A,D WHERE D > 100 ORDER BY D',
-           :'data-dash-chart_options' => '{"title": "Countries"}'}
+        %div{:id => "vis_div",
+             :style => "height: 200px;",
+             :class => 'span4',
+             :'data-dash'=> 'google_spreadsheet',
+             :'data-dash-data_source' => 'http://spreadsheets.google.com/tq?key=pCQbetd-CptGXxxQIG7VFIQ&pub=1',
+             :'data-dash-chart_type' => 'LineChart',
+             :'data-dash-query' => 'SELECT A,D WHERE D > 100 ORDER BY D',
+             :'data-dash-chart_options' => '{"title": "Countries"}'}
+
+        %div{:id =>"chart_div23",
+            :style =>"height:200px",
+            :class => 'span4',
+            :'data-dash-disabled' => false,
+            :'data-dash'=> 'google_spreadsheet',
+            :'data-dash-chart_type' => 'LineChart',
+            :'data-dash-data_source' => 'http://spreadsheets.google.com/tq?key=0Al1Qt4qYjbEwdE45c1dQSEhCd3VDZjRMQ2pTX21Ebnc&pub=1',
+            :'data-dash-reload_interval' => 6000}
+
+  %script{:src => "/js/require.js", :'data-main' => "js/main"}
