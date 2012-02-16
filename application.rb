@@ -1,5 +1,12 @@
-require 'sinatra'
-require './site'
+$: << File.dirname(__FILE__) + "/lib"
 
-set :root, File.dirname(__FILE__)
-set :app_file, __FILE__
+require 'sinatra'
+
+require 'routes'
+
+class Dasher < Sinatra::Application
+
+  set :root, File.dirname(__FILE__)
+  set :app_file, __FILE__
+
+end
