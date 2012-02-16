@@ -43,4 +43,17 @@
             :'data-dash-data_source' => 'http://spreadsheets.google.com/tq?key=0Al1Qt4qYjbEwdE45c1dQSEhCd3VDZjRMQ2pTX21Ebnc&pub=1',
             :'data-dash-reload_interval' => 6000}
 
+      %div{:class => 'row-fluid'}
+        %div{:id =>"chart_div5",
+            :style =>"height:200px",
+            :class => 'span12',
+            :'data-dash-disabled' => false,
+            :'data-dash'=> 'auto_chart',
+            :'data-dash-name' => 'Member ages',
+            :'data-dash-data_source' => 'http://localhost:4567/remote_sample',
+            :'data-dash-use_proxy' => 'true',
+            :'data-dash-x-axis' => 'name',
+            :'data-dash-y-axis' => 'age',
+            :'data-dash-reload_interval' => 6000}
+
   %script{:src => "/js/require.js", :'data-main' => "js/main"}

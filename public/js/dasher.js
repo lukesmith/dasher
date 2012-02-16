@@ -50,7 +50,7 @@ define(function(require, exports, module) {
             DashType.prototype.constructor = dashType;
             function DashType(opts) {
                 if (typeof(dash.initialize) !== "undefined") {
-                    dash.initialize.call(this, opts);
+                    dash.initialize.call(this.__proto__, opts);
                 }
             }
 

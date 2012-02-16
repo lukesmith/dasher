@@ -28,7 +28,8 @@ define(function(require, exports, module) {
 
     function Dash(element, opts) {
         var defaults = {
-            reloadInterval: 10000
+            reloadInterval: 10000,
+            useProxy: false
         };
 
         opts = $.extend(defaults, opts);
@@ -37,15 +38,18 @@ define(function(require, exports, module) {
         this.elementId = element;
         this.reloadInterval = opts.reloadInterval;
         this.dataSource = opts.dataSource;
+        this.useProxy = opts.useProxy;
+
+        var dash = this;
 
         this.disable = function() {
-            this.disabled = true;
-            this.getElement().addClass("disabled");
+            dash.disabled = true;
+            dash.getElement().addClass("disabled");
         };
         this.enable = function() {
-            this.disabled = false;
-            this.getElement().removeClass("disabled");
-            refresh.call(this);
+            dash.disabled = false;
+            dash.getElement().removeClass("disabled");
+            refresh.call(dash);
         }
     }
     Dash.prototype.getElement = function() {
@@ -58,8 +62,15 @@ define(function(require, exports, module) {
         this.displayError('No renderer defined');
     };
     Dash.prototype.update = function(callback, failed) {
+        var dataSource = this.useProxy ? '/proxy' : this.dataSource;
+        var data = {};
+        if (this.useProxy === true) {
+            data['url'] = this.dataSource;
+        }
+
         $.ajax({
-            url: this.dataSource,
+            url: dataSource,
+            data: data,
             dataType: 'json',
             success: function (d) {
                 callback(d);
