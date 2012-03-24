@@ -4,7 +4,6 @@ require 'json'
 require 'date'
 require 'haml'
 require "teamcity-rest-client"
-require 'active_support/time'
 
 set :haml, :format => :html5
 
