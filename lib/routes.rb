@@ -8,7 +8,7 @@ require "teamcity-rest-client"
 set :haml, :format => :html5
 
 get '/' do
-  haml :dashboard
+  haml :dashboard, :locals => { :host => request.host, :port => request.port }
 end
 
 get '/exceptions' do
